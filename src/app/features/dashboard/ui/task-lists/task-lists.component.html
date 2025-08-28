@@ -1,0 +1,154 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+  <!-- Recent Tasks -->
+  <div
+    class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-6 lg:p-8 rounded-xl lg:rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50"
+  >
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
+          Recent Tasks
+        </h3>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">
+          Latest updated tasks
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/50 dark:to-indigo-900/50 rounded-lg lg:rounded-xl flex items-center justify-center"
+      >
+        <i
+          class="pi pi-clock text-blue-600 dark:text-blue-400 text-lg lg:text-xl"
+        ></i>
+      </div>
+    </div>
+    <div class="space-y-4">
+      @for (task of getRecentTasks(); track task.id) {
+      <div
+        class="flex items-center justify-between p-4 bg-white/60 dark:bg-gray-700/60 rounded-lg lg:rounded-xl border border-gray-200/50 dark:border-gray-600/50 hover:shadow-lg transition-all duration-200 hover:scale-105"
+      >
+        <div class="flex-1">
+          <h4
+            class="font-semibold text-gray-900 dark:text-white text-base lg:text-lg"
+          >
+            {{ task.title }}
+          </h4>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            {{ task.assignedTo || "Unassigned" }}
+          </p>
+          <div class="flex items-center space-x-2 mt-2">
+            <span
+              class="px-3 py-1 text-xs font-medium rounded-full"
+              [class]="getStatusClass(task.status)"
+            >
+              {{ task.status }}
+            </span>
+            <span
+              class="px-3 py-1 text-xs font-medium rounded-full"
+              [class]="getCategoryClass(task.category)"
+            >
+              {{ task.category }}
+            </span>
+          </div>
+        </div>
+        <button
+          [routerLink]="['/tasks/edit', task.id]"
+          class="p-3 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg lg:rounded-xl transition-all duration-200"
+        >
+          <i class="pi pi-pencil text-base lg:text-lg"></i>
+        </button>
+      </div>
+      } @empty {
+      <div class="text-center py-12">
+        <div
+          class="w-12 h-12 lg:w-16 lg:h-16 bg-gray-100 dark:bg-gray-700 rounded-lg lg:rounded-2xl flex items-center justify-center mx-auto mb-4"
+        >
+          <i class="pi pi-file text-gray-400 text-xl lg:text-2xl"></i>
+        </div>
+        <p
+          class="text-base lg:text-lg font-medium text-gray-900 dark:text-white"
+        >
+          No recent tasks
+        </p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          Tasks will appear here when created
+        </p>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Overdue Tasks -->
+  <div
+    class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-6 lg:p-8 rounded-xl lg:rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50"
+  >
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
+          Overdue Tasks
+        </h3>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">
+          Tasks past their due date
+        </p>
+      </div>
+      <div
+        class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-red-100 to-pink-100 dark:from-red-900/50 dark:to-pink-900/50 rounded-lg lg:rounded-xl flex items-center justify-center"
+      >
+        <i
+          class="pi pi-exclamation-triangle text-red-600 dark:text-red-400 text-lg lg:text-xl"
+        ></i>
+      </div>
+    </div>
+    <div class="space-y-4">
+      @for (task of getOverdueTasks(); track task.id) {
+      <div
+        class="flex items-center justify-between p-4 bg-red-50/80 dark:bg-red-900/20 rounded-lg lg:rounded-xl border border-red-200/50 dark:border-red-800/50 hover:shadow-lg transition-all duration-200 hover:scale-105"
+      >
+        <div class="flex-1">
+          <h4
+            class="font-semibold text-gray-900 dark:text-white text-base lg:text-lg"
+          >
+            {{ task.title }}
+          </h4>
+          <p class="text-sm text-red-600 dark:text-red-400 mt-1">
+            Due: {{ task.dueDate | date : "shortDate" }}
+          </p>
+          <div class="flex items-center space-x-2 mt-2">
+            <span
+              class="px-3 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
+            >
+              Overdue
+            </span>
+            <span
+              class="px-3 py-1 text-xs font-medium rounded-full"
+              [class]="getCategoryClass(task.category)"
+            >
+              {{ task.category }}
+            </span>
+          </div>
+        </div>
+        <button
+          [routerLink]="['/tasks/edit', task.id]"
+          class="p-3 text-red-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg lg:rounded-xl transition-all duration-200"
+        >
+          <i class="pi pi-pencil text-base lg:text-lg"></i>
+        </button>
+      </div>
+      } @empty {
+      <div class="text-center py-12">
+        <div
+          class="w-12 h-12 lg:w-16 lg:h-16 bg-green-100 dark:bg-green-900/50 rounded-lg lg:rounded-2xl flex items-center justify-center mx-auto mb-4"
+        >
+          <i class="pi pi-check-circle text-green-500 text-xl lg:text-2xl"></i>
+        </div>
+        <p
+          class="text-base lg:text-lg font-medium text-gray-900 dark:text-white"
+        >
+          All caught up! 🎉
+        </p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          No overdue tasks found
+        </p>
+      </div>
+      }
+    </div>
+  </div>
+</div>

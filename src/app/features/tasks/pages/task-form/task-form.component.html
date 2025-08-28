@@ -1,0 +1,199 @@
+<div class="max-w-4xl mx-auto">
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+      {{ isEditMode() ? "Edit Task" : "Create New Task" }}
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400">
+      {{
+        isEditMode()
+          ? "Update task information"
+          : "Add a new task to your project"
+      }}
+    </p>
+  </div>
+
+  <!-- Form Card -->
+  <p-card>
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Title -->
+      <div class="form-group">
+        <label
+          for="title"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Title *
+        </label>
+        <input
+          pInputText
+          id="title"
+          formControlName="title"
+          placeholder="Enter task title"
+          class="w-full"
+          [class.ng-invalid]="
+            taskForm.get('title')?.invalid && taskForm.get('title')?.touched
+          "
+        />
+        <div *ngIf="getFieldError('title')" class="text-red-600 text-sm mt-1">
+          {{ getFieldError("title") }}
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label
+          for="description"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Description
+        </label>
+        <textarea
+          pInputTextarea
+          id="description"
+          formControlName="description"
+          placeholder="Enter task description"
+          [rows]="3"
+          class="w-full"
+        >
+        </textarea>
+      </div>
+
+      <!-- Assigned To -->
+      <div class="form-group">
+        <label
+          for="assignedTo"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Assigned To
+        </label>
+        <p-dropdown
+          id="assignedTo"
+          formControlName="assignedTo"
+          [options]="users()"
+          placeholder="Select assignee"
+          [showClear]="true"
+          class="w-full"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- Due Date -->
+      <div class="form-group">
+        <label
+          for="dueDate"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Due Date
+        </label>
+        <p-calendar
+          id="dueDate"
+          formControlName="dueDate"
+          placeholder="Select due date"
+          [showIcon]="true"
+          dateFormat="yy-mm-dd"
+          class="w-full"
+        >
+        </p-calendar>
+      </div>
+
+      <!-- Estimated Hours -->
+      <div class="form-group">
+        <label
+          for="estimatedHours"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Estimated Hours
+        </label>
+        <p-inputNumber
+          id="estimatedHours"
+          formControlName="estimatedHours"
+          placeholder="Enter estimated hours"
+          [min]="0"
+          [max]="1000"
+          [showButtons]="false"
+          class="w-full"
+        >
+        </p-inputNumber>
+        <div
+          *ngIf="getFieldError('estimatedHours')"
+          class="text-red-600 text-sm mt-1"
+        >
+          {{ getFieldError("estimatedHours") }}
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+        <label
+          for="category"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Category *
+        </label>
+        <p-dropdown
+          id="category"
+          formControlName="category"
+          [options]="categories"
+          placeholder="Select category"
+          class="w-full"
+        >
+        </p-dropdown>
+        <div
+          *ngIf="getFieldError('category')"
+          class="text-red-600 text-sm mt-1"
+        >
+          {{ getFieldError("category") }}
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="form-group">
+        <label
+          for="status"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Status *
+        </label>
+        <p-dropdown
+          id="status"
+          formControlName="status"
+          [options]="statuses"
+          placeholder="Select status"
+          class="w-full"
+        >
+        </p-dropdown>
+        <div *ngIf="getFieldError('status')" class="text-red-600 text-sm mt-1">
+          {{ getFieldError("status") }}
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div
+        class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200 dark:border-gray-700"
+      >
+        <button
+          type="submit"
+          pButton
+          [disabled]="loading()"
+          [loading]="loading()"
+          icon="pi pi-check"
+          [label]="isEditMode() ? 'Update Task' : 'Create Task'"
+          class="p-button-primary flex-1"
+        ></button>
+
+        <button
+          type="button"
+          pButton
+          (click)="onCancel()"
+          [disabled]="loading()"
+          icon="pi pi-times"
+          label="Cancel"
+          class="p-button-outlined flex-1"
+        ></button>
+      </div>
+    </form>
+  </p-card>
+</div>
+
+<!-- Toast Messages -->
+<p-toast></p-toast>

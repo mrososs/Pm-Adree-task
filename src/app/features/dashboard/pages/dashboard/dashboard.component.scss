@@ -1,0 +1,110 @@
+// Custom styles for dashboard component
+:host {
+  display: block;
+}
+
+// PrimeNG Card customizations
+::ng-deep .p-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  height: 100%;
+
+  .dark & {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .p-card-header {
+    background: transparent;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1.5rem 1.5rem 1rem;
+
+    .dark & {
+      border-color: #374151;
+    }
+
+    .p-card-title {
+      color: #111827;
+      font-size: 1.125rem;
+      font-weight: 600;
+
+      .dark & {
+        color: #f9fafb;
+      }
+    }
+  }
+
+  .p-card-body {
+    padding: 1.5rem;
+  }
+}
+
+// Chart container styles
+.chart-container {
+  position: relative;
+  height: 320px;
+  width: 100%;
+}
+
+// Stats card hover effects
+.stats-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+
+// Task item styles
+.task-item {
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f9fafb;
+
+    .dark & {
+      background-color: #374151;
+    }
+  }
+}
+
+// Status and category badge styles
+.status-badge,
+.category-badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+// Responsive adjustments
+@media (max-width: 1024px) {
+  .chart-container {
+    height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    height: 240px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container {
+    height: 200px;
+  }
+}

@@ -1,0 +1,102 @@
+// Custom styles for tasks list component
+:host {
+  display: block;
+}
+
+// PrimeNG Table customizations
+::ng-deep .p-datatable {
+  .p-datatable-header {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .p-datatable-thead > tr > th {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #374151;
+    font-weight: 600;
+    padding: 1rem;
+
+    .dark & {
+      background: #1f2937;
+      border-color: #374151;
+      color: #d1d5db;
+    }
+  }
+
+  .p-datatable-tbody > tr {
+    border-color: #e2e8f0;
+
+    .dark & {
+      border-color: #374151;
+    }
+
+    &:hover {
+      background: #f9fafb;
+
+      .dark & {
+        background: #374151;
+      }
+    }
+  }
+
+  .p-datatable-tbody > tr > td {
+    padding: 1rem;
+    border-color: #e2e8f0;
+
+    .dark & {
+      border-color: #374151;
+    }
+  }
+}
+
+// PrimeNG Dropdown customizations
+::ng-deep .p-dropdown {
+  width: 100%;
+
+  .p-dropdown-label {
+    color: #374151;
+
+    .dark & {
+      color: #d1d5db;
+    }
+  }
+
+  .p-dropdown-trigger {
+    color: #6b7280;
+
+    .dark & {
+      color: #9ca3af;
+    }
+  }
+}
+
+// PrimeNG Button customizations
+::ng-deep .p-button {
+  &.p-button-sm {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  &.p-button-outlined {
+    border-width: 1px;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

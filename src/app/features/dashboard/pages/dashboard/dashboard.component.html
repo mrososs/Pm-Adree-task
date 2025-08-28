@@ -1,0 +1,23 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="text-center lg:text-left">
+    <h1
+      class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3"
+    >
+      Project Dashboard
+    </h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl">
+      Welcome to your project management hub. Track progress, monitor tasks, and
+      stay organized with real-time insights.
+    </p>
+  </div>
+
+  <!-- Stats Overview -->
+  <app-stats-overview [stats]="stats()"></app-stats-overview>
+
+  <!-- Charts -->
+  <app-task-charts [tasks]="tasks()"></app-task-charts>
+
+  <!-- Task Lists -->
+  <app-task-lists [tasks]="tasks()"></app-task-lists>
+</div>

@@ -1,0 +1,58 @@
+<div
+  class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
+>
+  <div class="flex items-start justify-between">
+    <div class="flex-1">
+      <h3 class="font-medium text-gray-900 dark:text-white mb-1">
+        {{ task.title }}
+      </h3>
+             @if (task.description) {
+         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+           {{ task.description }}
+         </p>
+       }
+      <div
+        class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400"
+      >
+                 @if (task.assignedTo) {
+           <span>{{ task.assignedTo }}</span>
+         }
+         @if (task.dueDate) {
+           <span>• Due: {{ task.dueDate | date : "shortDate" }}</span>
+         }
+         @if (task.estimatedHours) {
+           <span>• {{ task.estimatedHours }}h</span>
+         }
+      </div>
+    </div>
+
+    <div class="flex flex-col items-end space-y-2">
+      <div class="flex items-center space-x-2">
+        <span
+          class="px-2 py-1 text-xs font-medium rounded-full"
+          [class]="getStatusClass(task.status)"
+        >
+          {{ task.status }}
+        </span>
+        <span
+          class="px-2 py-1 text-xs font-medium rounded-full"
+          [class]="getCategoryClass(task.category)"
+        >
+          {{ task.category }}
+        </span>
+      </div>
+
+             @if (showActions) {
+         <div class="flex space-x-2">
+           <button
+             pButton
+             icon="pi pi-pencil"
+             class="p-button-sm p-button-outlined"
+             [routerLink]="['/tasks/edit', task.id]"
+             pTooltip="Edit Task"
+           ></button>
+         </div>
+       }
+    </div>
+  </div>
+</div>

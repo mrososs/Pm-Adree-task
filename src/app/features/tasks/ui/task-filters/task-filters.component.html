@@ -1,0 +1,61 @@
+<div
+  class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div>
+      <label
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >Search</label
+      >
+      <input
+        pInputText
+        [value]="searchTerm()"
+        (input)="onSearchTermChange($any($event.target).value)"
+        placeholder="Search tasks..."
+        class="w-full"
+      />
+    </div>
+
+    <div>
+      <label
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >Category</label
+      >
+      <p-dropdown
+        [options]="categories"
+        [(ngModel)]="_selectedCategory"
+        (onChange)="onCategoryChange($event.value)"
+        placeholder="All Categories"
+        [showClear]="true"
+        class="w-full"
+      >
+      </p-dropdown>
+    </div>
+
+    <div>
+      <label
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >Status</label
+      >
+      <p-dropdown
+        [options]="statuses"
+        [(ngModel)]="_selectedStatus"
+        (onChange)="onStatusChange($event.value)"
+        placeholder="All Statuses"
+        [showClear]="true"
+        class="w-full"
+      >
+      </p-dropdown>
+    </div>
+
+    <div class="flex items-end">
+      <button
+        pButton
+        (click)="onClearFilters()"
+        icon="pi pi-refresh"
+        label="Clear Filters"
+        class="p-button-outlined w-full"
+      ></button>
+    </div>
+  </div>
+</div>

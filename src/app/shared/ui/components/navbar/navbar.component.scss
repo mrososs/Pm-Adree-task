@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.navbar-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.navbar-button:hover::before {
+  width: 100%;
+  height: 100%;
+}

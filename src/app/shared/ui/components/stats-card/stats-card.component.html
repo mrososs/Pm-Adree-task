@@ -1,0 +1,56 @@
+<div
+  class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+>
+  <div class="flex items-center">
+    <div class="p-3 rounded-lg" [class]="getIconBgClass()">
+      <svg
+        class="w-6 h-6"
+        [class]="getIconColorClass()"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          [attr.d]="icon"
+        ></path>
+      </svg>
+    </div>
+    <div class="ml-4">
+      <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+        {{ title }}
+      </p>
+      <p class="text-2xl font-bold text-gray-900 dark:text-white">
+        {{ value }}
+      </p>
+      <div *ngIf="trend" class="flex items-center mt-1">
+        <span
+          class="text-sm"
+          [class]="trend.isPositive ? 'text-green-600' : 'text-red-600'"
+        >
+          {{ trend.isPositive ? "+" : "" }}{{ trend.value }}%
+        </span>
+        <svg
+          class="w-4 h-4 ml-1"
+          [class]="trend.isPositive ? 'text-green-600' : 'text-red-600'"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            [attr.d]="
+              trend.isPositive
+                ? 'M5 10l7-7m0 0l7 7m-7-7v18'
+                : 'M19 14l-7 7m0 0l-7-7m7 7V3'
+            "
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
