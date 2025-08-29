@@ -45,17 +45,20 @@ export class TaskApiService {
     return this.http.get<Task>(`${this.base}/${id}`);
   }
 
-  create(dto: Task) {
+  create(dto: Partial<Task>) {
     return this.http.post<Task>(this.base, dto).pipe(
       tap((created) => {
         console.log('Task created:', created);
-        this._tasks.update((tasks) => [created, ...tasks]);
+        this._tasks.update(tasks => [created, ...tasks]);
       })
     );
   }
 
   update(id: string, dto: Partial<Task>) {
-    return this.http.put<Task>(`${this.base}/${id}`, dto).pipe(
+    // ensure id is in the body (in-memory requires it)
+    const body: Task = { id, ...(dto as Omit<Task, 'id'>) } as Task;
+  
+    return this.http.put<Task>(`${this.base}/${id}`, body).pipe(
       tap((updated) => {
         console.log('Task updated:', updated);
         this._tasks.update((tasks) =>
@@ -64,6 +67,7 @@ export class TaskApiService {
       })
     );
   }
+  
 
   remove(id: string) {
     return this.http.delete<void>(`${this.base}/${id}`).pipe(

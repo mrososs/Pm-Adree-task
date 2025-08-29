@@ -16,7 +16,7 @@
   </div>
 
   <!-- Form Card -->
-  <p-card styleClass="shadow-lg border-0">
+  <p-card styleClass="shadow-lg border-0 bg-white dark:!bg-gray-800">
     <form
       [formGroup]="taskForm"
       (ngSubmit)="onSubmit()"
@@ -80,13 +80,13 @@
           <p-dropdown
             id="assignedTo"
             formControlName="assignedTo"
-            [options]="users()"
+            [options]="userOptions"
+            optionLabel="label"
+            optionValue="value"
             placeholder="Select assignee"
-            [showClear]="true"
-            class="w-full"
-            styleClass="w-full"
-          >
-          </p-dropdown>
+            class="w-full p-[0.7rem]"
+            styleClass="w-full custom-dropdown"
+          ></p-dropdown>
         </div>
 
         <!-- Due Date -->
@@ -97,16 +97,17 @@
           >
             Due Date
           </label>
-          <p-calendar
+          <p-datepicker
             id="dueDate"
             formControlName="dueDate"
             placeholder="Select due date"
             [showIcon]="true"
+            [showButtonBar]="true"
             dateFormat="yy-mm-dd"
             class="w-full"
-            styleClass="w-full"
+            styleClass="w-full "
           >
-          </p-calendar>
+          </p-datepicker>
         </div>
       </div>
 
@@ -150,9 +151,9 @@
           <p-dropdown
             id="category"
             formControlName="category"
-            [options]="categories"
+            [options]="categoryOptions"
             placeholder="Select category"
-            class="w-full"
+            class="w-full p-[0.7rem]"
             styleClass="w-full"
           >
           </p-dropdown>
@@ -176,9 +177,9 @@
         <p-dropdown
           id="status"
           formControlName="status"
-          [options]="statuses"
+          [options]="statusOptions"
           placeholder="Select status"
-          class="w-full"
+          class="w-full p-[0.7rem]"
           styleClass="w-full"
         >
         </p-dropdown>

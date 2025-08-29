@@ -8,7 +8,6 @@ import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextarea } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
@@ -16,12 +15,15 @@ import { ChartModule } from 'primeng/chart';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { DatePickerModule } from 'primeng/datepicker';
+
 
 // PrimeNG Services
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 @NgModule({
   imports: [
+    DatePickerModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -30,9 +32,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     InputTextModule,
     InputTextarea,
     DropdownModule,
-    CalendarModule,
     InputNumberModule,
     ToastModule,
+    
     CardModule,
     ChartModule,
     ConfirmDialogModule,
@@ -45,10 +47,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     ReactiveFormsModule,
     ButtonModule,
     TableModule,
+    DatePickerModule,
     InputTextModule,
     InputTextarea,
     DropdownModule,
-    CalendarModule,
     InputNumberModule,
     ToastModule,
     CardModule,

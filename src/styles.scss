@@ -6,3 +6,59 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+@layer components {
+  .custom-dropdown .p-dropdown,
+  .custom-dropdown .p-datepicker {
+    @apply w-full px-3 py-3 text-base rounded-md border border-gray-300;
+  }
+
+  /* عشان text جوه الـ dropdown */
+  .custom-dropdown .p-dropdown-label {
+    @apply text-gray-700;
+  }
+  .dark .tw-dark-table {
+    @apply bg-gray-900 rounded-xl shadow-lg ring-1 ring-gray-800 overflow-hidden;
+  }
+
+  /* رأس الجدول */
+  .dark .tw-dark-table .p-datatable-thead > tr > th {
+    @apply bg-gray-800 text-gray-200 font-semibold px-4 py-3 border-b border-gray-700;
+  }
+
+  /* الصفوف */
+  .dark .tw-dark-table .p-datatable-tbody > tr {
+    @apply bg-gray-900 border-b border-gray-800;
+  }
+  .dark .tw-dark-table .p-datatable-tbody > tr:hover {
+    @apply bg-gray-800/60;
+  }
+
+  /* خلايا الصفوف */
+  .dark .tw-dark-table .p-datatable-tbody > tr > td {
+    @apply px-4 py-4 text-gray-100 align-middle;
+  }
+
+  /* الـ Empty State */
+  .dark .tw-dark-table .p-datatable-emptymessage {
+    @apply bg-gray-900 text-gray-400;
+  }
+
+  /* الباجيناتور */
+  .dark .tw-dark-table .p-paginator {
+    @apply bg-gray-900 border-t border-gray-800;
+  }
+  .dark .tw-dark-table .p-paginator .p-paginator-element {
+    @apply text-gray-300;
+  }
+  .dark .tw-dark-table .p-paginator .p-paginator-page.p-highlight {
+    @apply bg-gray-800 text-white;
+  }
+
+  /* أزرار الأكشن */
+  .dark .tw-dark-table .p-button.p-button-outlined {
+    @apply border-gray-700 text-gray-200;
+  }
+  .dark .tw-dark-table .p-button.p-button-outlined:hover {
+    @apply bg-gray-800;
+  }
+}

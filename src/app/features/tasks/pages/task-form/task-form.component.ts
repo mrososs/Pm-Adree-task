@@ -9,6 +9,10 @@ import {
 import { PrimeNgModule } from '../../../../shared/ui/prime-ng.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import {
+  TaskCategoryEnum,
+  TaskStatusEnum,
+} from '../../constants/enums/task.enums';
 
 @Component({
   selector: 'app-task-form',
@@ -30,9 +34,23 @@ export class TaskFormComponent implements OnInit {
   loading = signal(false);
 
   // Dropdown options
-  categories: TaskCategory[] = ['Dev', 'Test', 'UI', 'Db'];
-  statuses: TaskStatus[] = ['New', 'Active', 'Closed'];
-  users = signal<string[]>([]);
+  categoryOptions: { label: string; value: TaskCategory }[] = Object.values(
+    TaskCategoryEnum
+  ).map((v) => ({ label: v, value: v as TaskCategory }));
+
+  statusOptions: { label: string; value: TaskStatus }[] = Object.values(
+    TaskStatusEnum
+  ).map((v) => ({ label: v, value: v as TaskStatus }));
+
+  users = signal<string[]>([
+    'Mohamed Osama',
+    'Radwa Mohamed',
+    'Ali Hassan',
+    'Sara Ibrahim',
+    'Nour Ahmed',
+    'Omar Farouk',
+  ]);
+  userOptions = this.users().map((u) => ({ label: u, value: u }));
 
   ngOnInit() {
     this.initializeForm();
@@ -113,6 +131,7 @@ export class TaskFormComponent implements OnInit {
         category: formValue.category,
         status: formValue.status,
       };
+      console.log(taskData);
 
       if (this.isEditMode()) {
         this.taskApi.update(this.taskId()!, taskData).subscribe({

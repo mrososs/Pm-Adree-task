@@ -1,4 +1,6 @@
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+<div
+  class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
+>
   <p-table
     [value]="tasks"
     [paginator]="true"
@@ -9,29 +11,63 @@
     styleClass="p-datatable-sm"
     responsiveLayout="scroll"
     [tableStyle]="{ 'min-width': '50rem' }"
+    styleClass="p-datatable-sm tw-dark-table"
   >
     <!-- Header -->
     <ng-template pTemplate="header">
       <tr class="bg-gray-50 dark:bg-gray-700">
-        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Title</th>
-        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Assigned To</th>
-        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Category</th>
-        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Status</th>
-        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Due Date</th>
-        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Est. Hours</th>
-        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Actions</th>
+        <th
+          class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Title
+        </th>
+        <th
+          class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Assigned To
+        </th>
+        <th
+          class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Category
+        </th>
+        <th
+          class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Status
+        </th>
+        <th
+          class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Due Date
+        </th>
+        <th
+          class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Est. Hours
+        </th>
+        <th
+          class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Actions
+        </th>
       </tr>
     </ng-template>
 
     <!-- Body (هنا بدل @for) -->
     <ng-template pTemplate="body" let-task>
-      <tr class="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+      <tr
+        class="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+      >
         <td class="p-4">
           <div>
             <div class="font-semibold text-gray-900 dark:text-white text-base">
               {{ task.title }}
             </div>
-            <div *ngIf="task.description" class="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+            <div
+              *ngIf="task.description"
+              class="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2"
+            >
               {{ task.description }}
             </div>
           </div>
@@ -39,36 +75,42 @@
 
         <td class="p-4">
           <span class="text-gray-900 dark:text-white font-medium">
-            {{ task.assignedTo || '-' }}
+            {{ task.assignedTo || "-" }}
           </span>
         </td>
 
         <td class="p-4">
-          <span class="px-3 py-1 text-xs font-semibold rounded-full" [class]="getCategoryClass(task.category)">
+          <span
+            class="px-3 py-1 text-xs font-semibold rounded-full"
+            [class]="getCategoryClass(task.category)"
+          >
             {{ task.category }}
           </span>
         </td>
 
         <td class="p-4">
-          <span class="px-3 py-1 text-xs font-semibold rounded-full" [class]="getStatusClass(task.status)">
+          <span
+            class="px-3 py-1 text-xs font-semibold rounded-full"
+            [class]="getStatusClass(task.status)"
+          >
             {{ task.status }}
           </span>
         </td>
 
         <td class="p-4">
           <span class="text-gray-900 dark:text-white font-medium">
-            {{ task.dueDate ? (task.dueDate | date:'shortDate') : '-' }}
+            {{ task.dueDate ? (task.dueDate | date : "shortDate") : "-" }}
           </span>
         </td>
 
         <td class="p-4">
           <span class="text-gray-900 dark:text-white font-medium">
-            {{ task.estimatedHours || '-' }}
+            {{ task.estimatedHours || "-" }}
           </span>
         </td>
 
         <td class="p-4">
-          <div class="flex space-x-2">
+          <div class="flex space-x-2 gap-3">
             <button
               pButton
               icon="pi pi-eye"
@@ -100,11 +142,17 @@
       <tr>
         <td colspan="7" class="text-center py-12">
           <div class="text-gray-500 dark:text-gray-400">
-            <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div
+              class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
               <i class="pi pi-file text-2xl text-gray-400"></i>
             </div>
-            <p class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No tasks found</p>
-            <p class="text-sm">Try adjusting your filters or create a new task.</p>
+            <p class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              No tasks found
+            </p>
+            <p class="text-sm">
+              Try adjusting your filters or create a new task.
+            </p>
           </div>
         </td>
       </tr>
