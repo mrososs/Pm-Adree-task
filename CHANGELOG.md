@@ -105,7 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 🔗 Links
 
 - [GitHub Repository](https://github.com/yourusername/pm-app)
-- [Live Demo](https://pm-app-demo.vercel.app)
+- [Live Demo](https://pm-adree-task.vercel.app)
 - [Documentation](https://github.com/yourusername/pm-app#readme)
 - [Issues](https://github.com/yourusername/pm-app/issues)
 - [Pull Requests](https://github.com/yourusername/pm-app/pulls)

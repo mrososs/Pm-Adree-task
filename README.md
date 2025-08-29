@@ -522,7 +522,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 🌐 Demo
 
-**Live Demo**: [https://pm-app-demo.vercel.app](https://pm-app-demo.vercel.app)
+**Live Demo**: [https://pm-app-demo.vercel.app](https://pm-adree-task.vercel.app)
 
 **Features Demonstrated**:
 
