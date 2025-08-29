@@ -1,12 +1,16 @@
-<div class="space-y-6">
+<div class="space-y-6 lg:space-y-8 p-4 lg:p-6 ">
   <!-- Header -->
   <div
-    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 lg:gap-6"
   >
     <div>
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Tasks</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-400">
-        Manage your project tasks
+      <h1
+        class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2"
+      >
+        Tasks Management
+      </h1>
+      <p class="text-lg lg:text-xl text-gray-600 dark:text-gray-400">
+        Manage and track your project tasks efficiently
       </p>
     </div>
     <button
@@ -14,51 +18,43 @@
       routerLink="/tasks/create"
       icon="pi pi-plus"
       label="Create Task"
-      class="p-button-primary"
+      class="p-button-primary p-3 text-base font-semibold"
     ></button>
   </div>
 
   <!-- Stats Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-    @for (stat of [ { title: 'Total Tasks', value: stats().total, icon: 'M9
-    5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0
-    002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', color: 'blue' }, {
-    title: 'Active', value: stats().byStatus['Active'] || 0, icon: 'M9 12l2 2
-    4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', color: 'green' }, { title: 'New',
-    value: stats().byStatus['New'] || 0, icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9
-    9 0 0118 0z', color: 'blue' }, { title: 'Closed', value:
-    stats().byStatus['Closed'] || 0, icon: 'M5 13l4 4L19 7', color: 'gray' } ];
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+    @for (stat of [ { title: 'Total Tasks', value: stats().total, icon: 'pi
+    pi-file', color: 'blue' }, { title: 'Active Tasks', value:
+    stats().byStatus['Active'] || 0, icon: 'pi pi-check-circle', color: 'green'
+    }, { title: 'New Tasks', value: stats().byStatus['New'] || 0, icon: 'pi
+    pi-clock', color: 'purple' }, { title: 'Completed', value:
+    stats().byStatus['Closed'] || 0, icon: 'pi pi-check', color: 'gray' } ];
     track stat.title) {
     <div
-      class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+      class="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105"
     >
       <div class="flex items-center">
         <div
-          class="p-2 bg-{{ stat.color }}-100 dark:bg-{{
+          class="p-3 lg:p-4 bg-{{ stat.color }}-100 dark:bg-{{
             stat.color
-          }}-900 rounded-lg"
+          }}-900/50 rounded-xl"
         >
-          <svg
-            class="w-6 h-6 text-{{ stat.color }}-600 dark:text-{{
+          <i
+            class="pi {{ stat.icon }} text-{{ stat.color }}-600 dark:text-{{
               stat.color
-            }}-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              [attr.d]="stat.icon"
-            ></path>
-          </svg>
+            }}-400 text-xl lg:text-2xl"
+          ></i>
         </div>
-        <div class="ml-4">
-          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+        <div class="ml-4 lg:ml-6">
+          <p
+            class="text-sm lg:text-base font-semibold text-gray-600 dark:text-gray-400 mb-1"
+          >
             {{ stat.title }}
           </p>
-          <p class="text-2xl font-bold text-gray-900 dark:text-white">
+          <p
+            class="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white"
+          >
             {{ stat.value }}
           </p>
         </div>
@@ -68,18 +64,32 @@
   </div>
 
   <!-- Filters -->
-  <app-task-filters
-    [searchTerm]="searchTerm"
-    [selectedCategory]="selectedCategory"
-    [selectedStatus]="selectedStatus"
-    (searchTermChange)="searchTerm.set($event)"
-    (selectedCategoryChange)="selectedCategory.set($event)"
-    (selectedStatusChange)="selectedStatus.set($event)"
-    (clearFilters)="clearFilters()"
+  <div
+    class="bg-white mt-10 dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6"
   >
-  </app-task-filters>
+    <app-task-filters
+      [searchTerm]="searchTerm"
+      [selectedCategory]="selectedCategory"
+      [selectedStatus]="selectedStatus"
+      (searchTermChange)="searchTerm.set($event)"
+      (selectedCategoryChange)="selectedCategory.set($event)"
+      (selectedStatusChange)="selectedStatus.set($event)"
+      (clearFilters)="clearFilters()"
+    >
+    </app-task-filters>
+  </div>
 
   <!-- Tasks Table -->
-  <app-task-table [tasks]="filteredTasks" (deleteTask)="confirmDelete($event)">
-  </app-task-table>
+  <div
+    class="bg-white mt-5 dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
+  >
+    <app-task-table
+      [tasks]="filteredTasks"
+      (deleteTask)="confirmDelete($event)"
+    >
+    </app-task-table>
+  </div>
 </div>
+
+<!-- Delete Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>

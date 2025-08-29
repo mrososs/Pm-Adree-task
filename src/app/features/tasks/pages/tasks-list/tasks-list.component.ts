@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TaskApiService } from '../../data-access/task-api.service';
 import {
@@ -8,7 +8,7 @@ import {
 } from '../../../../../assets/mock-api/mock.db';
 import { PrimeNgModule } from '../../../../shared/ui/prime-ng.module';
 import { TaskFiltersComponent, TaskTableComponent } from '../../ui';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-tasks-list',
@@ -25,6 +25,7 @@ import { MessageService } from 'primeng/api';
 export class TasksListComponent implements OnInit {
   private taskApi = inject(TaskApiService);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
 
   tasks = this.taskApi.tasks;
   stats = this.taskApi.stats;
@@ -34,22 +35,33 @@ export class TasksListComponent implements OnInit {
   selectedCategory = signal<TaskCategory | null>(null);
   selectedStatus = signal<TaskStatus | null>(null);
 
-  // Dialog properties
-  showDeleteDialog = signal(false);
-  taskToDelete = signal<Task | null>(null);
-
   // Dropdown options
   categories: TaskCategory[] = ['Dev', 'Test', 'UI', 'Db'];
   statuses: TaskStatus[] = ['New', 'Active', 'Closed'];
 
+  constructor() {
+    // Effect to log when tasks change
+    effect(() => {
+      const currentTasks = this.tasks();
+      console.log('Tasks list tasks changed:', currentTasks);
+    });
+
+    // Effect to log when stats change
+    effect(() => {
+      const currentStats = this.stats();
+      console.log('Tasks list stats changed:', currentStats);
+    });
+  }
+
   ngOnInit() {
+    console.log('Tasks list component initialized');
     this.taskApi.load().subscribe({
       next: (tasks) => {
         console.log('Tasks loaded in list:', tasks);
       },
       error: (error) => {
         console.error('Error loading tasks in list:', error);
-      }
+      },
     });
   }
 
@@ -82,32 +94,40 @@ export class TasksListComponent implements OnInit {
   }
 
   confirmDelete(task: Task) {
-    this.taskToDelete.set(task);
-    this.showDeleteDialog.set(true);
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete the task "${task.title}"?`,
+      header: 'Delete Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteTask(task);
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cancelled',
+          detail: 'Task deletion cancelled',
+        });
+      },
+    });
   }
 
-  deleteTask() {
-    const task = this.taskToDelete();
-    if (task) {
-      this.taskApi.remove(task.id).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Task deleted successfully',
-          });
-          this.showDeleteDialog.set(false);
-          this.taskToDelete.set(null);
-        },
-        error: () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to delete task',
-          });
-        },
-      });
-    }
+  deleteTask(task: Task) {
+    this.taskApi.remove(task.id).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Task deleted successfully',
+        });
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to delete task',
+        });
+      },
+    });
   }
 
   getStatusClass(status: TaskStatus): string {

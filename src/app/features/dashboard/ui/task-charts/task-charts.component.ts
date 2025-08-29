@@ -7,6 +7,9 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
+  OnChanges,
+  SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -22,7 +25,9 @@ import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
   templateUrl: './task-charts.component.html',
   styleUrls: ['./task-charts.component.scss'],
 })
-export class TaskChartsComponent implements OnInit, AfterViewInit {
+export class TaskChartsComponent
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy
+{
   @Input() tasks: any[] = [];
 
   @ViewChild('statusChart', { static: false }) statusChartRef!: ElementRef;
@@ -33,18 +38,36 @@ export class TaskChartsComponent implements OnInit, AfterViewInit {
 
   constructor() {
     Chart.register(...registerables);
+
+    // Effect to update charts when tasks change
+    effect(() => {
+      const currentTasks = this.tasks;
+      console.log('Task charts tasks changed:', currentTasks);
+      if (this.statusChart && this.categoryChart) {
+        this.updateCharts();
+      }
+    });
   }
 
   ngOnInit() {
-    // Initialize when component is ready
+    console.log('Task charts component initialized with tasks:', this.tasks);
   }
 
   ngAfterViewInit() {
+    console.log('Task charts after view init');
     this.initializeCharts();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('Task charts changes:', changes);
+    if (changes['tasks'] && this.statusChart && this.categoryChart) {
+      this.updateCharts();
+    }
   }
 
   private initializeCharts() {
     if (this.statusChartRef && this.categoryChartRef) {
+      console.log('Initializing charts');
       this.createStatusChart();
       this.createCategoryChart();
     }
@@ -55,6 +78,8 @@ export class TaskChartsComponent implements OnInit, AfterViewInit {
 
     const statusCounts = this.getStatusCounts();
     const isDark = document.documentElement.classList.contains('dark');
+
+    console.log('Creating status chart with data:', statusCounts);
 
     this.statusChart = new Chart(ctx, {
       type: 'pie' as ChartType,
@@ -90,6 +115,8 @@ export class TaskChartsComponent implements OnInit, AfterViewInit {
 
     const categoryCounts = this.getCategoryCounts();
     const isDark = document.documentElement.classList.contains('dark');
+
+    console.log('Creating category chart with data:', categoryCounts);
 
     this.categoryChart = new Chart(ctx, {
       type: 'bar' as ChartType,
@@ -147,6 +174,7 @@ export class TaskChartsComponent implements OnInit, AfterViewInit {
     this.tasks.forEach((task) => {
       counts[task.status as TaskStatus]++;
     });
+    console.log('Status counts:', counts);
     return counts;
   }
 
@@ -155,17 +183,12 @@ export class TaskChartsComponent implements OnInit, AfterViewInit {
     this.tasks.forEach((task) => {
       counts[task.category as TaskCategory]++;
     });
+    console.log('Category counts:', counts);
     return counts;
   }
 
-  // Update charts when tasks change
-  ngOnChanges() {
-    if (this.statusChart && this.categoryChart) {
-      this.updateCharts();
-    }
-  }
-
   private updateCharts() {
+    console.log('Updating charts');
     const statusCounts = this.getStatusCounts();
     const categoryCounts = this.getCategoryCounts();
 
@@ -190,6 +213,7 @@ export class TaskChartsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnDestroy() {
+    console.log('Task charts component destroying');
     if (this.statusChart) {
       this.statusChart.destroy();
     }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   Task,
@@ -17,6 +17,10 @@ import { PrimeNgModule } from '../../../../shared/ui/prime-ng.module';
 export class TaskTableComponent {
   @Input() tasks: Task[] = [];
   @Output() deleteTask = new EventEmitter<Task>();
+
+  // Dialog state
+  showViewDialog = signal(false);
+  selectedTask = signal<Task | null>(null);
 
   getStatusClass(status: TaskStatus): string {
     switch (status) {
@@ -46,7 +50,17 @@ export class TaskTableComponent {
     }
   }
 
+  onViewTask(task: Task) {
+    this.selectedTask.set(task);
+    this.showViewDialog.set(true);
+  }
+
   onDeleteTask(task: Task) {
     this.deleteTask.emit(task);
+  }
+
+  closeViewDialog() {
+    this.showViewDialog.set(false);
+    this.selectedTask.set(null);
   }
 }

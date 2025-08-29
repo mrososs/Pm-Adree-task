@@ -8,6 +8,7 @@ import {
 } from '../../../../../assets/mock-api/mock.db';
 import { PrimeNgModule } from '../../../../shared/ui/prime-ng.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-task-form',
@@ -21,6 +22,7 @@ export class TaskFormComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private taskApi = inject(TaskApiService);
+  private messageService = inject(MessageService);
 
   taskForm!: FormGroup;
   isEditMode = signal(false);
@@ -85,6 +87,11 @@ export class TaskFormComponent implements OnInit {
       },
       error: () => {
         this.loading.set(false);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load task',
+        });
         this.router.navigate(['/tasks']);
       },
     });
@@ -110,24 +117,49 @@ export class TaskFormComponent implements OnInit {
       if (this.isEditMode()) {
         this.taskApi.update(this.taskId()!, taskData).subscribe({
           next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Task updated successfully',
+            });
             this.router.navigate(['/tasks']);
           },
           error: () => {
             this.loading.set(false);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to update task',
+            });
           },
         });
       } else {
         this.taskApi.create(taskData as Task).subscribe({
           next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Task created successfully',
+            });
             this.router.navigate(['/tasks']);
           },
           error: () => {
             this.loading.set(false);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to create task',
+            });
           },
         });
       }
     } else {
       this.markFormGroupTouched();
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'Please fix the form errors',
+      });
     }
   }
 

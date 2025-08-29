@@ -1,6 +1,4 @@
-<div
-  class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
   <p-table
     [value]="tasks"
     [paginator]="true"
@@ -10,107 +8,106 @@
     [rowsPerPageOptions]="[5, 10, 25, 50]"
     styleClass="p-datatable-sm"
     responsiveLayout="scroll"
+    [tableStyle]="{ 'min-width': '50rem' }"
   >
+    <!-- Header -->
     <ng-template pTemplate="header">
-      <tr>
-        <th>Title</th>
-        <th>Assigned To</th>
-        <th>Category</th>
-        <th>Status</th>
-        <th>Due Date</th>
-        <th>Est. Hours</th>
-        <th>Actions</th>
+      <tr class="bg-gray-50 dark:bg-gray-700">
+        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Title</th>
+        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Assigned To</th>
+        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Category</th>
+        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Status</th>
+        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Due Date</th>
+        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Est. Hours</th>
+        <th class="text-left p-4 font-semibold text-gray-700 dark:text-gray-300">Actions</th>
       </tr>
     </ng-template>
 
-         @for (task of tasks; track task.id) {
-       <tr>
-         <td>
-           <div>
-             <div class="font-medium text-gray-900 dark:text-white">
-               {{ task.title }}
-             </div>
-             @if (task.description) {
-               <div class="text-sm text-gray-500 dark:text-gray-400">
-                 {{ task.description }}
-               </div>
-             }
-           </div>
-         </td>
-         <td class="text-gray-900 dark:text-white">
-           {{ task.assignedTo || "-" }}
-         </td>
-         <td>
-           <span
-             class="px-2 py-1 text-xs font-medium rounded-full"
-             [class]="getCategoryClass(task.category)"
-           >
-             {{ task.category }}
-           </span>
-         </td>
-         <td>
-           <span
-             class="px-2 py-1 text-xs font-medium rounded-full"
-             [class]="getStatusClass(task.status)"
-           >
-             {{ task.status }}
-           </span>
-         </td>
-         <td class="text-gray-900 dark:text-white">
-           @if (task.dueDate) {
-             {{ task.dueDate | date : "shortDate" }}
-           } @else {
-             -
-           }
-         </td>
-         <td class="text-gray-900 dark:text-white">
-           {{ task.estimatedHours || "-" }}
-         </td>
-         <td>
-           <div class="flex space-x-2">
-             <button
-               pButton
-               icon="pi pi-pencil"
-               class="p-button-sm p-button-outlined"
-               [routerLink]="['/tasks/edit', task.id]"
-               pTooltip="Edit Task"
-             ></button>
-             <button
-               pButton
-               icon="pi pi-trash"
-               class="p-button-sm p-button-outlined p-button-danger"
-               (click)="onDeleteTask(task)"
-               pTooltip="Delete Task"
-             ></button>
-           </div>
-         </td>
-       </tr>
-     }
+    <!-- Body (هنا بدل @for) -->
+    <ng-template pTemplate="body" let-task>
+      <tr class="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <td class="p-4">
+          <div>
+            <div class="font-semibold text-gray-900 dark:text-white text-base">
+              {{ task.title }}
+            </div>
+            <div *ngIf="task.description" class="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+              {{ task.description }}
+            </div>
+          </div>
+        </td>
 
-         @empty {
-       <tr>
-         <td colspan="7" class="text-center py-8">
-           <div class="text-gray-500 dark:text-gray-400">
-             <svg
-               class="mx-auto h-12 w-12 mb-4"
-               fill="none"
-               stroke="currentColor"
-               viewBox="0 0 24 24"
-             >
-               <path
-                 stroke-linecap="round"
-                 stroke-linejoin="round"
-                 stroke-width="2"
-                 d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-               ></path>
-             </svg>
-             <p class="text-lg font-medium">No tasks found</p>
-             <p class="text-sm">
-               Try adjusting your filters or create a new task.
-             </p>
-           </div>
-         </td>
-       </tr>
-     }
+        <td class="p-4">
+          <span class="text-gray-900 dark:text-white font-medium">
+            {{ task.assignedTo || '-' }}
+          </span>
+        </td>
+
+        <td class="p-4">
+          <span class="px-3 py-1 text-xs font-semibold rounded-full" [class]="getCategoryClass(task.category)">
+            {{ task.category }}
+          </span>
+        </td>
+
+        <td class="p-4">
+          <span class="px-3 py-1 text-xs font-semibold rounded-full" [class]="getStatusClass(task.status)">
+            {{ task.status }}
+          </span>
+        </td>
+
+        <td class="p-4">
+          <span class="text-gray-900 dark:text-white font-medium">
+            {{ task.dueDate ? (task.dueDate | date:'shortDate') : '-' }}
+          </span>
+        </td>
+
+        <td class="p-4">
+          <span class="text-gray-900 dark:text-white font-medium">
+            {{ task.estimatedHours || '-' }}
+          </span>
+        </td>
+
+        <td class="p-4">
+          <div class="flex space-x-2">
+            <button
+              pButton
+              icon="pi pi-eye"
+              class="p-button-sm p-button-outlined p-button-info"
+              (click)="onViewTask(task)"
+              pTooltip="View Task Details"
+            ></button>
+            <button
+              pButton
+              icon="pi pi-pencil"
+              class="p-button-sm p-button-outlined p-button-success"
+              [routerLink]="['/tasks/edit', task.id]"
+              pTooltip="Edit Task"
+            ></button>
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="p-button-sm p-button-outlined p-button-danger"
+              (click)="onDeleteTask(task)"
+              pTooltip="Delete Task"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <!-- Empty state -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7" class="text-center py-12">
+          <div class="text-gray-500 dark:text-gray-400">
+            <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="pi pi-file text-2xl text-gray-400"></i>
+            </div>
+            <p class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No tasks found</p>
+            <p class="text-sm">Try adjusting your filters or create a new task.</p>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
   </p-table>
 </div>

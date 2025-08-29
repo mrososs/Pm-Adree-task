@@ -13,10 +13,5 @@ export class InMemoryApiService implements InMemoryDbService {
     };
   }
 
-  // Override genId to ensure unique IDs
-  genId<T extends { id?: string }>(collection: T[]): string {
-    if (collection.length === 0) return 'T-1001';
-    const maxId = Math.max(...collection.map(item => parseInt(item.id?.replace('T-', '') || '0')));
-    return `T-${maxId + 1}`;
-  }
+
 }
